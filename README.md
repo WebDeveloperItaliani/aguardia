@@ -21,7 +21,7 @@ $ ./install
 ## Testing
 
 ``` bash
-$ phpunit
+$ vendor/bin/phpunit
 ```
 
 ## License
