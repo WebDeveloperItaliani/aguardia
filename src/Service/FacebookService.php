@@ -10,9 +10,12 @@ class FacebookService
     /* @var Client */
     private $client;
 
-    public function __construct(Client $client)
+    private $accessToken;
+
+    public function __construct(Client $client, $accessToken)
     {
         $this->client = $client;
+        $this->accessToken = $accessToken;
     }
 
     public function getLatestPostsByFbGroupId($groupId, $timeInterval = 15)
@@ -22,7 +25,7 @@ class FacebookService
         $response = $this->client->request('GET', $groupId . '/feed', [
             'query' => [
                 'since' => $fifteenMinutesAgo,
-                'access_token' => getenv('FACEBOOK_ACCESS_TOKEN')
+                'access_token' => $this->accessToken
             ]
         ]);
 
@@ -39,7 +42,7 @@ class FacebookService
     {
         $response = $this->client->request('GET', $postId, [
             'query' => [
-                'access_token' => getenv('FACEBOOK_ACCESS_TOKEN')
+                'access_token' => $this->accessToken
             ]
         ]);
 
@@ -55,7 +58,7 @@ class FacebookService
     {
         $response = $this->client->request('DELETE', $postId, [
             'query' => [
-                'access_token' => getenv('FACEBOOK_ACCESS_TOKEN')
+                'access_token' => $this->accessToken
             ]
         ]);
 
@@ -69,7 +72,7 @@ class FacebookService
     {
         $response = $this->client->request('POST', $postId . '/comments', [
             'query' => [
-                'access_token' => getenv('FACEBOOK_ACCESS_TOKEN')
+                'access_token' => $this->accessToken
             ],
             'form_params' => [
                 'message' => $message

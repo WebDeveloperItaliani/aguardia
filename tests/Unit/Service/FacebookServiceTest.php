@@ -21,7 +21,7 @@ class FacebookServiceTest extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->facebookService = new FacebookService($this->client);
+        $this->facebookService = new FacebookService($this->client, 'fb_access_token');
 
         parent::setUp();
     }
