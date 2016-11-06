@@ -40,10 +40,11 @@ class ProcessLatestPostsCommand extends Command
         $latestPosts = $this->facebookService->getLatestPostsByFbGroupId(getenv('FACEBOOK_GROUP_ID'));
         $output->writeln('Found ' . count($latestPosts) . ' posts.');
 
+        $alreadyReportedPostsIds = $this->reportedPostRepository->get();
         $reportedPostsIds = [];
         foreach($latestPosts as $post)
         {
-            if(!$this->hashtagValidator->validate($post['message'])) {
+            if(!$this->hashtagValidator->validate($post['message']) && !in_array($post['id'], $alreadyReportedPostsIds)) {
                 $reportedPostsIds[] = $post['id'];
                 $this->facebookService->commentPost($post['id'], getenv('WARNING_MESSAGE'));
             }
