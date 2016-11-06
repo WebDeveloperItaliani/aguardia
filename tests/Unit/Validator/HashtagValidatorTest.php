@@ -26,5 +26,7 @@ class HashtagValidatorTest extends TestCase
     public function testNotValidMessage()
     {
         $this->assertFalse($this->validator->validate('this is not a regular message. I will be banned :('));
+        $this->assertFalse($this->validator->validate('this is not a regular message. #evenIfIAddThis I will be banned :('));
+        $this->assertFalse($this->validator->validate('this is not a regular message. I will be banned :( #endingHashtagSucks'));
     }
 }
