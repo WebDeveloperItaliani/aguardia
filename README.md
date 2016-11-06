@@ -19,6 +19,14 @@ $ cd aguardia
 $ ./install
 ```
 
+**Importante:** bisogna specificare nel file `.env` l'access token ed il facebook id del gruppo. Generalmente un access token non ha una vita lunga, ma si può "allungare" richiedendo a Facebook un long-lived token partendo da quello dell'utente.
+
+    https://graph.facebook.com/oauth/access_token?             
+        client_id=APP_ID&
+        client_secret=APP_SECRET&
+        grant_type=fb_exchange_token&
+        fb_exchange_token=EXISTING_ACCESS_TOKEN
+
 ## Uso
 
 ``` bash
