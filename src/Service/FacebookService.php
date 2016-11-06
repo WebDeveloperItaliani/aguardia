@@ -64,4 +64,21 @@ class FacebookService
             throw new \Exception('An error occurred while deleting the post.');
         }
     }
+
+    public function commentPost($postId, $message)
+    {
+        $response = $this->client->request('POST', $postId . '/comments', [
+            'query' => [
+                'access_token' => getenv('FACEBOOK_ACCESS_TOKEN')
+            ],
+            'form_params' => [
+                'message' => $message
+            ]
+        ]);
+
+        $responseBody = json_decode($response->getBody()->getContents(), true);
+        if(isset($responseBody['error'])) {
+            throw new \Exception('An error occurred while commenting the post.');
+        }
+    }
 }

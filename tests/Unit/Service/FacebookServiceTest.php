@@ -104,4 +104,26 @@ class FacebookServiceTest extends TestCase
 
         $this->facebookService->deletePostById('nonexistent_post_id');
     }
+
+    public function testCommentPost()
+    {
+        $this->client->expects($this->once())
+            ->method('request')
+            ->willReturn(new Response(200, [], file_get_contents('tests/Unit/Fixtures/comment_post.json')));
+
+        $this->facebookService->commentPost('existent_post_id', 'Hello there!');
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage An error occurred while commenting the post.
+     */
+    public function testCommentPostThrowsException()
+    {
+        $this->client->expects($this->once())
+            ->method('request')
+            ->willReturn(new Response(200, [], file_get_contents('tests/Unit/Fixtures/comment_post_error.json')));
+
+        $this->facebookService->commentPost('nonexistent_post_id', 'World will never seen this :(');
+    }
 }
