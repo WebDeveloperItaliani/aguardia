@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+if [ ! -e posts.json ]; then
+  echo "[]" > posts.json
+fi
+
+cp ./.env.example ./.env
+composer install
+
+echo "Please, insert the group facebook id and the facebook access token in the .env file."
