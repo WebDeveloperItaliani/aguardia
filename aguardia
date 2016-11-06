@@ -11,5 +11,6 @@ $dotenv->load();
 $application = new Application();
 
 $application->add(new \AGuardia\Command\ProcessLatestPostsCommand());
+$application->add(new \AGuardia\Command\ProcessReportedPostsCommand());
 
 $application->run();
