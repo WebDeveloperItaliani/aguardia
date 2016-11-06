@@ -56,4 +56,52 @@ class FacebookServiceTest extends TestCase
 
         $this->facebookService->getLatestPostsByFbGroupId('test_facebook_id');
     }
+
+    public function testGetPostById()
+    {
+        $this->client->expects($this->once())
+            ->method('request')
+            ->willReturn(new Response(200, [], file_get_contents('tests/Unit/Fixtures/get_post_ok.json')));
+
+        $this->assertEquals([
+            "created_time" => "2016-11-05T19:51:24+0000",
+            "message" => "Test post contents...",
+            "id" => "1070708249665248_1166157310120341"
+        ], $this->facebookService->getPostById('existent_post_id'));
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage An error occurred while fetching the post.
+     */
+    public function testGetPostByIdThrowsError()
+    {
+        $this->client->expects($this->once())
+            ->method('request')
+            ->willReturn(new Response(200, [], file_get_contents('tests/Unit/Fixtures/get_post_error.json')));
+
+        $this->facebookService->getPostById('nonexistent_post_id');
+    }
+
+    public function testDeletePostById()
+    {
+        $this->client->expects($this->once())
+            ->method('request')
+            ->willReturn(new Response(200, [], file_get_contents('tests/Unit/Fixtures/delete_post.json')));
+
+        $this->facebookService->deletePostById('existent_post_id');
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage An error occurred while deleting the post.
+     */
+    public function testDeletePostByIdThrowsError()
+    {
+        $this->client->expects($this->once())
+            ->method('request')
+            ->willReturn(new Response(200, [], file_get_contents('tests/Unit/Fixtures/delete_post_error.json')));
+
+        $this->facebookService->deletePostById('nonexistent_post_id');
+    }
 }

@@ -34,4 +34,34 @@ class FacebookService
 
         return $responseBody['data'];
     }
+
+    public function getPostById($postId)
+    {
+        $response = $this->client->request('GET', $postId, [
+            'query' => [
+                'access_token' => getenv('FACEBOOK_ACCESS_TOKEN')
+            ]
+        ]);
+
+        $responseBody = json_decode($response->getBody()->getContents(), true);
+        if(isset($responseBody['error'])) {
+            throw new \Exception('An error occurred while fetching the post.');
+        }
+
+        return $responseBody;
+    }
+
+    public function deletePostById($postId)
+    {
+        $response = $this->client->request('DELETE', $postId, [
+            'query' => [
+                'access_token' => getenv('FACEBOOK_ACCESS_TOKEN')
+            ]
+        ]);
+
+        $responseBody = json_decode($response->getBody()->getContents(), true);
+        if(isset($responseBody['error'])) {
+            throw new \Exception('An error occurred while deleting the post.');
+        }
+    }
 }
