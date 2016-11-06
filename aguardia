@@ -10,6 +10,6 @@ $dotenv->load();
 
 $application = new Application();
 
-// TODO: add commands
+$application->add(new \AGuardia\Command\ProcessLatestPostsCommand());
 
 $application->run();
